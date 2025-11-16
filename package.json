@@ -5,6 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "npm run lint && node src/app.js",
+    "start:simple": "node server-simple.js",
     "dev": "nodemon",
     "build:web": "cd web/admin-spa && npm run build",
     "install:web": "cd web/admin-spa && npm install",

@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Factory.ai Relay - API Key Manager</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        width: 100%;
+        padding: 40px;
+      }
+
+      h1 {
+        color: #333;
+        margin-bottom: 10px;
+        font-size: 28px;
+      }
+
+      .subtitle {
+        color: #666;
+        margin-bottom: 30px;
+        font-size: 14px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      .section h2 {
+        color: #444;
+        font-size: 18px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #667eea;
+        padding-bottom: 8px;
+      }
+
+      .key-display {
+        background: #f5f5f5;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 15px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        word-break: break-all;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .key-text {
+        flex: 1;
+        margin-right: 10px;
+      }
+
+      .copy-btn {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        transition: background 0.3s;
+      }
+
+      .copy-btn:hover {
+        background: #5568d3;
+      }
+
+      .copy-btn:active {
+        transform: scale(0.95);
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        color: #333;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+
+      input[type='text'] {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s;
+      }
+
+      input[type='text']:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .generate-btn {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        width: 100%;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .generate-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      }
+
+      .generate-btn:active {
+        transform: translateY(0);
+      }
+
+      .keys-list {
+        margin-top: 15px;
+      }
+
+      .key-item {
+        background: #f9f9f9;
+        border-left: 4px solid #667eea;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+
+      .key-name {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .key-value {
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        color: #666;
+      }
+
+      .success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 15px;
+      }
+
+      .warning {
+        background: #fff3cd;
+        border: 1px solid #ffeaa7;
+        color: #856404;
+        padding: 12px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-size: 13px;
+      }
+
+      .tools-section {
+        background: #f0f4ff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+      }
+
+      .tool-config {
+        background: white;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 15px;
+      }
+
+      .tool-config h3 {
+        color: #667eea;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .config-item {
+        margin-bottom: 8px;
+        font-size: 13px;
+      }
+
+      .config-label {
+        font-weight: 600;
+        color: #555;
+        display: inline-block;
+        width: 120px;
+      }
+
+      .config-value {
+        font-family: 'Courier New', monospace;
+        color: #667eea;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🚀 Factory.ai Relay</h1>
+      <p class="subtitle">Hardcoded API Key Manager</p>
+
+      <!-- Current API Key -->
+      <div class="section">
+        <h2>📌 Your Default API Key</h2>
+        <div class="key-display">
+          <span class="key-text" id="defaultKey">droid-4834935040543</span>
+          <button class="copy-btn" onclick="copyKey('defaultKey')">Copy</button>
+        </div>
+      </div>
+
+      <!-- Base URL -->
+      <div class="section">
+        <h2>🌐 Base URL</h2>
+        <div class="key-display">
+          <span class="key-text" id="baseUrl"
+            >https://claude-relay-service-0rdd.onrender.com</span
+          >
+          <button class="copy-btn" onclick="copyKey('baseUrl')">Copy</button>
+        </div>
+      </div>
+
+      <!-- Generate New Key -->
+      <div class="section">
+        <h2>🔑 Generate New API Key</h2>
+        <div class="form-group">
+          <label for="keyName">Key Name</label>
+          <input
+            type="text"
+            id="keyName"
+            placeholder="e.g., My Project Key"
+          />
+        </div>
+        <button class="generate-btn" onclick="generateKey()">
+          Generate Key
+        </button>
+        <div id="result"></div>
+      </div>
+
+      <!-- Existing Keys -->
+      <div class="section">
+        <h2>📋 Existing Keys</h2>
+        <div class="keys-list" id="keysList">Loading...</div>
+      </div>
+
+      <!-- Tool Configuration -->
+      <div class="tools-section">
+        <h2 style="margin-bottom: 15px; color: #333">
+          🛠️ Tool Configuration
+        </h2>
+
+        <div class="tool-config">
+          <h3>Roo Cline / Cline</h3>
+          <div class="config-item">
+            <span class="config-label">Provider:</span>
+            <span class="config-value">Anthropic</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">Base URL:</span>
+            <span class="config-value"
+              >https://claude-relay-service-0rdd.onrender.com</span
+            >
+          </div>
+          <div class="config-item">
+            <span class="config-label">API Key:</span>
+            <span class="config-value">droid-4834935040543</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">Model:</span>
+            <span class="config-value">claude-sonnet-4-5-20250929</span>
+          </div>
+        </div>
+
+        <div class="tool-config">
+          <h3>Kilo</h3>
+          <div class="config-item">
+            <span class="config-label">Provider:</span>
+            <span class="config-value">Anthropic</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">Base URL:</span>
+            <span class="config-value"
+              >https://claude-relay-service-0rdd.onrender.com/v1</span
+            >
+          </div>
+          <div class="config-item">
+            <span class="config-label">API Key:</span>
+            <span class="config-value">droid-4834935040543</span>
+          </div>
+          <div class="config-item">
+            <span class="config-label">Model:</span>
+            <span class="config-value">claude-sonnet-4-5-20250929</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const baseUrl =
+        window.location.origin || 'https://claude-relay-service-0rdd.onrender.com'
+
+      // Copy key to clipboard
+      function copyKey(elementId) {
+        const element = document.getElementById(elementId)
+        const text = element.textContent
+        navigator.clipboard.writeText(text).then(() => {
+          const btn = element.nextElementSibling
+          const originalText = btn.textContent
+          btn.textContent = 'Copied!'
+          setTimeout(() => {
+            btn.textContent = originalText
+          }, 2000)
+        })
+      }
+
+      // Generate new API key
+      async function generateKey() {
+        const keyName = document.getElementById('keyName').value.trim()
+        const resultDiv = document.getElementById('result')
+
+        if (!keyName) {
+          resultDiv.innerHTML = `
+            <div class="warning">
+              ⚠️ Please enter a key name
+            </div>
+          `
+          return
+        }
+
+        try {
+          const response = await fetch(`${baseUrl}/api-keys/generate`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: keyName })
+          })
+
+          const data = await response.json()
+
+          if (data.success) {
+            resultDiv.innerHTML = `
+              <div class="success">
+                ✅ Key generated successfully!
+                <div style="margin-top: 10px; font-family: 'Courier New', monospace;">
+                  ${data.data.key}
+                </div>
+              </div>
+              <div class="warning">
+                ⚠️ ${data.data.message || 'Add this key to src/config/hardcoded.js to persist'}
+              </div>
+            `
+            document.getElementById('keyName').value = ''
+            loadKeys()
+          } else {
+            resultDiv.innerHTML = `
+              <div class="warning">
+                ❌ Error: ${data.error}
+              </div>
+            `
+          }
+        } catch (error) {
+          resultDiv.innerHTML = `
+            <div class="warning">
+              ❌ Error: ${error.message}
+            </div>
+          `
+        }
+      }
+
+      // Load existing keys
+      async function loadKeys() {
+        const keysListDiv = document.getElementById('keysList')
+
+        try {
+          const response = await fetch(`${baseUrl}/api-keys`)
+          const data = await response.json()
+
+          if (data.success && data.data.length > 0) {
+            keysListDiv.innerHTML = data.data
+              .map(
+                (key) => `
+              <div class="key-item">
+                <div class="key-name">${key.name}</div>
+                <div class="key-value">${key.key}</div>
+              </div>
+            `
+              )
+              .join('')
+          } else {
+            keysListDiv.innerHTML =
+              '<p style="color: #999;">No additional keys found</p>'
+          }
+        } catch (error) {
+          keysListDiv.innerHTML = `<p style="color: #999;">Error loading keys: ${error.message}</p>`
+        }
+      }
+
+      // Load keys on page load
+      loadKeys()
+    </script>
+  </body>
+</html>
