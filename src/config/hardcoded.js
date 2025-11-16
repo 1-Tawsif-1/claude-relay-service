@@ -28,7 +28,7 @@ module.exports = {
   // Factory.ai Endpoints
   FACTORY_ENDPOINTS: {
     anthropic: 'https://app.factory.ai/api/llm/a/v1/messages',
-    openai: 'https://app.factory.ai/api/llm/o/v1/responses'
+    openai: 'https://app.factory.ai/api/llm/o/v1/chat/completions' // Changed from /responses to /chat/completions
   },
 
   // Default Models (EXACT Factory.ai Droid CLI models only)
