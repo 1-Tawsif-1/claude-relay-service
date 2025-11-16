@@ -910,7 +910,8 @@ class DroidRelayService {
     if (endpointType === 'anthropic') {
       headers['accept'] = 'application/json'
       headers['anthropic-version'] = '2023-06-01'
-      headers['x-api-key'] = 'placeholder'
+      // NOTE: Do NOT set x-api-key for Factory.ai - they only use Bearer token authentication
+      // headers['x-api-key'] = 'placeholder' // REMOVED - causes 403 errors
       headers['x-api-provider'] = 'anthropic'
 
       if (this._isThinkingRequested(requestBody)) {

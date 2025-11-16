@@ -15,6 +15,7 @@ const cacheMonitor = require('./utils/cacheMonitor')
 // Import routes
 const apiRoutes = require('./routes/api')
 const unifiedRoutes = require('./routes/unified')
+const v1Routes = require('./routes/v1') // Unified V1 router for AI coding assistants
 const adminRoutes = require('./routes/admin')
 const webRoutes = require('./routes/web')
 const apiStatsRoutes = require('./routes/apiStats')
@@ -256,6 +257,17 @@ class Application {
       }
 
       // 🛣️ 路由
+      // ========================================
+      // Root V1 Routes (AI Coding Assistants)
+      // ========================================
+      // Mount unified V1 routes at root for compatibility with:
+      // - Roo Code, Cline, Kilo, Continue.dev, Cursor, etc.
+      // These provide OpenAI-compatible endpoints with intelligent backend routing
+      this.app.use('/v1', v1Routes)
+
+      // ========================================
+      // Provider-Specific Routes
+      // ========================================
       this.app.use('/api', apiRoutes)
       this.app.use('/api', unifiedRoutes) // 统一智能路由（支持 /v1/chat/completions 等）
       this.app.use('/claude', apiRoutes) // /claude 路由别名，与 /api 功能相同
