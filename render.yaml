@@ -1,0 +1,20 @@
+{
+  "name": "hardcoded-factory-relay",
+  "env": "docker",
+  "dockerfilePath": "./Dockerfile.simple",
+  "region": "oregon",
+  "plan": "free",
+  "buildCommand": "echo 'No build needed - using Dockerfile.simple'",
+  "startCommand": "node server-simple.js",
+  "healthCheckPath": "/health",
+  "envVars": [
+    {
+      "key": "PORT",
+      "value": "3000"
+    },
+    {
+      "key": "NODE_ENV",
+      "value": "production"
+    }
+  ]
+}
