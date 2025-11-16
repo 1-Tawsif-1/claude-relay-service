@@ -26,6 +26,38 @@ router.post('/v1/messages', authenticateSimpleApiKey, async (req, res) => {
 })
 
 /**
+ * POST /v1/chat/completions - OpenAI-compatible chat completions
+ * For AI coding assistants using OpenAI format (Continue.dev, Cursor, Kilo, etc.)
+ */
+router.post('/v1/chat/completions', authenticateSimpleApiKey, async (req, res) => {
+  req.factoryApiKey = hardcoded.FACTORY_API_KEY
+  await forwardToFactoryOpenAI(req, res)
+})
+
+/**
+ * POST /v1/completions - OpenAI legacy completions
+ */
+router.post('/v1/completions', authenticateSimpleApiKey, async (req, res) => {
+  // Convert to chat format
+  const originalBody = req.body
+  req.body = {
+    model: originalBody.model || hardcoded.DEFAULT_MODEL,
+    messages: [
+      {
+        role: 'user',
+        content: originalBody.prompt
+      }
+    ],
+    max_tokens: originalBody.max_tokens,
+    temperature: originalBody.temperature,
+    stream: originalBody.stream
+  }
+
+  req.factoryApiKey = hardcoded.FACTORY_API_KEY
+  await forwardToFactoryOpenAI(req, res)
+})
+
+/**
  * GET /v1/models - List all available models
  */
 router.get('/v1/models', authenticateSimpleApiKey, (req, res) => {
