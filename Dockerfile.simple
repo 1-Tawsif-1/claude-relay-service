@@ -26,6 +26,7 @@ RUN npm ci --only=production && \
 COPY server-simple.js ./
 COPY src/ ./src/
 COPY public/ ./public/
+COPY config/ ./config/
 
 # 📁 创建必要目录
 RUN mkdir -p logs data temp
