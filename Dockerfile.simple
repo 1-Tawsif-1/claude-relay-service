@@ -31,6 +31,11 @@ COPY config/ ./config/
 # 📁 创建必要目录
 RUN mkdir -p logs data temp
 
+# 🔧 创建 config.js (如果不存在)
+RUN if [ ! -f "/app/config/config.js" ]; then \
+        cp /app/config/config.example.js /app/config/config.js; \
+    fi
+
 # 🌐 暴露端口
 EXPOSE 3000
 
