@@ -26,13 +26,21 @@ router.post('/v1/messages', authenticateSimpleApiKey, async (req, res) => {
 })
 
 /**
- * GET /v1/models - List available Anthropic models
+ * GET /v1/models - List all available models
  */
 router.get('/v1/models', authenticateSimpleApiKey, (req, res) => {
-  logger.info('📋 Returning Anthropic models list')
+  logger.info('📋 Returning all available models')
+
+  // Combine all models into one list
+  const allModels = [
+    ...hardcoded.MODELS.anthropic,
+    ...hardcoded.MODELS.openai,
+    ...(hardcoded.MODELS.other || [])
+  ]
+
   res.json({
     object: 'list',
-    data: hardcoded.MODELS.anthropic
+    data: allModels
   })
 })
 

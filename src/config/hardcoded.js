@@ -31,80 +31,84 @@ module.exports = {
     openai: 'https://app.factory.ai/api/llm/o/v1/responses'
   },
 
-  // Default Models (exact names from Droid CLI)
+  // Default Models (EXACT Factory.ai Droid CLI models only)
   MODELS: {
     anthropic: [
-      // Claude Opus 4 (Latest)
-      {
-        id: 'claude-opus-4-20250514',
-        object: 'model',
-        created: Date.now(),
-        owned_by: 'anthropic',
-        display_name: 'Claude Opus 4'
-      },
+      // Claude Opus 4.1 (Most expensive, 6x cost)
       {
         id: 'claude-opus-4-1-20250805',
         object: 'model',
         created: Date.now(),
         owned_by: 'anthropic',
-        display_name: 'Claude Opus 4.1'
+        display_name: 'Opus 4.1',
+        cost_multiplier: '6x'
       },
-      // Claude Sonnet 4.5 (Recommended)
+      // Claude Sonnet 4.5 (Recommended for coding, 1.2x cost)
       {
         id: 'claude-sonnet-4-5-20250929',
         object: 'model',
         created: Date.now(),
         owned_by: 'anthropic',
-        display_name: 'Claude Sonnet 4.5'
+        display_name: 'Sonnet 4.5',
+        cost_multiplier: '1.2x'
       },
-      // Claude Sonnet 4
+      // Claude Haiku 4.5 (Fastest, 0.4x cost)
       {
-        id: 'claude-sonnet-4-20250514',
+        id: 'claude-haiku-4-5-20250514',
         object: 'model',
         created: Date.now(),
         owned_by: 'anthropic',
-        display_name: 'Claude Sonnet 4'
-      },
-      // Claude Sonnet 3.7
-      {
-        id: 'claude-3-7-sonnet-20250219',
-        object: 'model',
-        created: Date.now(),
-        owned_by: 'anthropic',
-        display_name: 'Claude 3.7 Sonnet'
-      },
-      // Claude Haiku 3.5
-      {
-        id: 'claude-3-5-haiku-20241022',
-        object: 'model',
-        created: Date.now(),
-        owned_by: 'anthropic',
-        display_name: 'Claude 3.5 Haiku'
+        display_name: 'Haiku 4.5',
+        cost_multiplier: '0.4x'
       }
     ],
     openai: [
-      // GPT-5 (Latest)
+      // GPT-5.1-Codex (Low) - Current model, 0.5x cost
       {
-        id: 'gpt-5-2025-08-07',
+        id: 'gpt-5-1-codex-low',
         object: 'model',
         created: Date.now(),
         owned_by: 'openai',
-        display_name: 'GPT-5 (Latest)'
+        display_name: 'GPT-5.1-Codex (Low)',
+        cost_multiplier: '0.5x'
       },
+      // GPT-5.1 (0.5x cost)
       {
-        id: 'gpt-5',
+        id: 'gpt-5-1',
         object: 'model',
         created: Date.now(),
         owned_by: 'openai',
-        display_name: 'GPT-5'
+        display_name: 'GPT-5.1',
+        cost_multiplier: '0.5x'
       },
-      // GPT-5 Codex variant
+      // GPT-5-Codex (0.5x cost)
       {
         id: 'gpt-5-codex',
         object: 'model',
         created: Date.now(),
         owned_by: 'openai',
-        display_name: 'GPT-5 Codex'
+        display_name: 'GPT-5-Codex',
+        cost_multiplier: '0.5x'
+      },
+      // GPT-5 (0.5x cost)
+      {
+        id: 'gpt-5',
+        object: 'model',
+        created: Date.now(),
+        owned_by: 'openai',
+        display_name: 'GPT-5',
+        cost_multiplier: '0.5x'
+      }
+    ],
+    other: [
+      // Droid Core (GLM-4.6) - Cheapest option, 0.25x cost
+      {
+        id: 'glm-4-6',
+        object: 'model',
+        created: Date.now(),
+        owned_by: 'zhipuai',
+        display_name: 'Droid Core (GLM-4.6)',
+        cost_multiplier: '0.25x'
       }
     ]
   },
