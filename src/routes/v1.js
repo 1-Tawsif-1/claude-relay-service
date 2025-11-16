@@ -11,6 +11,8 @@
  *
  * All providers (Claude, OpenAI, Gemini, Droid) are accessible through
  * these unified endpoints with intelligent backend routing.
+ *
+ * Version: 1.0.0
  */
 
 const express = require('express')
